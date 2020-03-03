@@ -1,6 +1,6 @@
 ---
 - name: "Install nodejs"
-  hosts: localhost
+  hosts: aula
   become: yes
   tasks:
     - name: Linux - Instalando NodeJS e NPM
