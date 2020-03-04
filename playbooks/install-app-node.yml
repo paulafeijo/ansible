@@ -29,7 +29,7 @@
 
     - name: "4. Compilando app."
       npm:
-        path: "{{path_app}}"
+        path: "{{path_app}}/{{app_name}}"
 
     - name: "5. Gerenciador node pm2"
       npm:
