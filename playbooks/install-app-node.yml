@@ -1,0 +1,41 @@
+---
+- name: "Install app node"
+  hosts: aula
+  become: yes
+  gather_facts: yes
+  vars:
+    path_app: /usr/app
+    app_name: app_node2-master
+    owner: root
+    group: root
+    mode: 0777
+  tasks:
+    - name: "1. Criar diretório"
+      file:
+        path: "{{path_app}}"
+        state: directory
+        mode: '0755'
+
+    - name: "2. Install unzip"
+      package:
+        name: unzip
+        state: present
+
+    - name: "3. Baixar e descompactar diretório da web"
+      unarchive:
+        src: https://github.com/bgsouza/app_node2/archive/master.zip
+        dest: "{{path_app}}"
+        remote_src: yes
+
+    - name: "4. Compilando app."
+      npm:
+        path: "{{path_app}}"
+
+    - name: "5. Gerenciador node pm2"
+      npm:
+        name: pm2
+        global: yes
+
+    - name: "6. Rodando o app"
+      command: pm2 start {{path_app}}/{{app_name}}/app.js
+      register: mymotd
